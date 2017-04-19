@@ -1,0 +1,20 @@
+{
+  "name": "friend-finder",
+  "version": "1.0.0",
+  "description": "Find yrself some friends",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UncleKentaki/FriendFinder.git"
+  },
+  "author": "Sean Naylor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UncleKentaki/FriendFinder/issues"
+  },
+  "homepage": "https://github.com/UncleKentaki/FriendFinder#readme"
+}
