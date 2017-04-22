@@ -16,9 +16,9 @@ router.get("/friends", function (req, res) {
 
 
 // Create new friend - takes in JSON input
-router.post("/friends", function (req, res) {
-
-    var newFriend = req.body;
+router.use("/friends", function (req, res) {
+    console.log(req.body);
+    var newFriend = JSON.parse(req.body);
     var newFriendScores = newFriend.scores;
     var scoreDiff = 0;
 
@@ -49,7 +49,7 @@ router.post("/friends", function (req, res) {
 
     }
 
-   friends.push(newFriend);
+    friends.push(newFriend);
 
     res.json(bestMatch);
 });

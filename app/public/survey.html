@@ -236,14 +236,22 @@
                 var currentURL = window.location.origin;
 
                 // AJAX post the data to the friends API. 
-                $.post(currentURL + "/api/friends", userData, function (data) {
+                $.ajax({
+                    type: "POST",
+                    url: currentURL + "/api/friends",
+                    data: JSON.stringify(userData),
+                    success: function (data) {
 
-                    // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-                    $("#matchName").text(data.name);
-                    $('#matchImg').attr("src", data.photo);
+                        // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+                        $("#matchName").text(data.name);
+                        $('#matchImg').attr("src", data.photo);
 
-                    // Show the modal with the best match 
-                    $("#resultsModal").modal('toggle');
+                        // Show the modal with the best match 
+                        $("#resultsModal").modal('toggle');
+                    },
+                    headers: {
+                        "content-type": "application/json"
+                    }
                 });
             
             } else {

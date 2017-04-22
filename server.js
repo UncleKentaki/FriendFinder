@@ -9,7 +9,7 @@ var app = express();
 var PORT = 3000;
 
 var htmlRoutes = require('./app/routing/htmlRoutes');
-var apiRoutes = require('./app/routing/apiRoutes');
+var apiRoutes = require('./app/routing/apiRoutes')(app);
 
 app.use('/', htmlRoutes);
 app.use('/api', apiRoutes);
