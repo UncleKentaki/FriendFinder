@@ -1,31 +1,28 @@
 // Routes
 // =============================================================
+var express = require('express');
+var router = express.Router();
+var path = require('path');
+
+
+
+// middleware that is specific to this router
+router.use(function timeLog(req, res, next) {
+  console.log('Time: ', Date.now())
+  next()
+});
 
 // Basic route that sends the user first to the AJAX Page
-app.get("/", function(req, res) {
-  // res.send("Welcome to the Star Wars Page!")
-  res.sendFile(path.join(__dirname, "home.html"));
+router.get("/", function (req, res) {
+  
+  res.sendFile("home.html", { "root": "./app/public" });
 });
 
 
-app.get("/tables", function(req, res) {
-  res.sendFile(path.join(__dirname, "view-tables.html"));
+router.get("/survey", function (req, res) {
+  res.sendFile("survey.html", { "root": "./app/public" });
 });
 
-app.get("/reserve", function(req, res) {
-  res.sendFile(path.join(__dirname, "make-reservation.html"));
-});
+module.exports = router;
 
-app.get("/api/tables")
 
-// Create New Characters - takes in JSON input
-app.post("/api/tables", function(req, res) {
-  var newReservation = req.body;
-  newcharacter.routeName = newcharacter.name.replace(/\s+/g, "").toLowerCase();
-
-  console.log(newReservation);
-
-  reservations.push(newReservation);
-
-  res.json(newReservation);
-});
