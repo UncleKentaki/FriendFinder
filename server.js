@@ -2,7 +2,8 @@
 // =============================================================
 var express = require('express');
 var bodyParser = require('body-parser');
- var path = require('path');
+var path = require('path');
+var fs = require('fs');
 // Sets up the Express App
 // =============================================================
 var app = express();
@@ -26,48 +27,50 @@ app.use(bodyParser.json({
 }));
 
 // Create new friend - takes in JSON input
-app.post("/friends", function (req, res) {
-    console.log(req.body);
-    var newFriend = JSON.parse(req.body);
-    var newFriendScores = newFriend.scores;
-    var scoreDiff = 0;
+app.post("/api/friends", function (req, res) {
+  console.log(req.body);
+  var newFriend = req.body;
+  var newFriendScores = newFriend.scores;
+  var scoreDiff = 0;
 
 
-    var bestMatch = {
-        name: "",
-        image: "",
-        matchDiff: ""
+  var bestMatch = {
+    name: "",
+    image: "",
+    matchDiff: ""
+  }
+
+  //loop trhough friends array
+  for (var i = 0; i < friends.length; i++) {
+
+    scoreDiff = 0;
+
+    //for each friend check difference in user score against current index
+    for (var n = 0; n < 10; n++) {
+
+      scoreDiff += Math.abs(parseInt(newFriendScores[n]) - parseInt(friends[i].scores[n]));
+
+      if (scoreDiff <= bestMatch.matchDiff) {
+        bestMatch.name = friends[i].name;
+        bestMatch.photo = friends[i].photo;
+        bestMatch.matchDiff = scoreDiff;
+      }
     }
 
-    //loop trhough friends array
-    for (var i = 0; i < friends.length; i++) {
+  }
 
-        scoresDiff = 0;
+  fs.appendFile('friends.js', bestMatch, function (err) {
+  if (err) throw err;
+  console.log('Saved!');
+});
 
-        //for each friend check difference in user score against current index
-        for (var n = 0; n < 10; n++) {
-
-            scoreDiff += Math.abs(parseInt(newFriendScores[n]) - parseInt(friends[i].scores[n]));
-
-            if (scoreDiff <= bestMatch.matchDiff) {
-                bestMatch.name = friends[i].name;
-                bestMatch.photo = friends[i].photo;
-                bestMatch.matchDiff = scoreDiff;
-            }
-
-        }
-
-    }
-
-    friends.push(newFriend);
-
-    res.json(bestMatch);
+  res.json(bestMatch);
 });
 
 
 
 // Starts the server to begin listening
 // =============================================================
-app.listen(PORT, function() {
+app.listen(PORT, function () {
   console.log("App listening on PORT " + PORT);
 });
