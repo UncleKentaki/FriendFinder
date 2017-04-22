@@ -1,6 +1,6 @@
 var users = [
     {
-        "name": "Rick Sanchez",
+        "name": "Krombopulous Michael",
         "photo": "https://vignette4.wikia.nocookie.net/rickandmorty/images/9/93/Krombopulos_Michael.png/revision/latest?cb=20160919070008",
         "scores": [
             5,
@@ -11,8 +11,8 @@ var users = [
             5,
             3,
             3,
-            4
-
+            4,
+            5
         ]
     }
 ]

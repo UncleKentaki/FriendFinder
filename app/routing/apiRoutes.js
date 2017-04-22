@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var users = require('../data/friends')
+var friends = require('../data/friends');
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
     console.log('Time: ', Date.now())
@@ -8,19 +8,20 @@ router.use(function timeLog(req, res, next) {
 });
 
 router.get("/friends", function(req, res) {
-    res.json(users);
+    res.json(friends);
 });
+
 
 // Create New Characters - takes in JSON input
 router.post("/friends", function (req, res) {
-    var newUser = req.body;
-    newUser.routeName = newUser.name.replace(/\s+/g, "").toLowerCase();
+    var newFriend = req.body;
+    newFriend.routeName = newFriend.name.replace(/\s+/g, "").toLowerCase();
 
-    console.log(newUser);
+    console.log(newFriend);
 
-    reservations.push(newUser);
+    friends.push(newFriend);
 
-    res.json(newUser);
+    res.json(newFriend);
 });
 
 module.exports = router;
