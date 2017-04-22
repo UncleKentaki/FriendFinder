@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var friends = require('../data/friends');
+var bodyParser = require('body-parser')
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
     console.log('Time: ', Date.now())
@@ -18,7 +19,7 @@ router.get("/friends", function (req, res) {
 router.post("/friends", function (req, res) {
 
     var newFriend = req.body;
-    var newFriendScore = newFriend.score;
+    var newFriendScores = newFriend.scores;
     var scoreDiff = 0;
 
 
@@ -31,12 +32,12 @@ router.post("/friends", function (req, res) {
     //loop trhough friends array
     for (var i = 0; i < friends.length; i++) {
 
-        scoreDiff = 0;
+        scoresDiff = 0;
 
         //for each friend check difference in user score against current index
         for (var n = 0; n < 10; n++) {
 
-            scoreDiff += Math.abs(parseInt(newFriendScore[n]) - parseInt(friends[i].score[n]));
+            scoreDiff += Math.abs(parseInt(newFriendScores[n]) - parseInt(friends[i].scores[n]));
 
             if (scoreDiff <= bestMatch.matchDiff) {
                 bestMatch.name = friends[i].name;
@@ -48,10 +49,7 @@ router.post("/friends", function (req, res) {
 
     }
 
-    fs.appendFile('friends.js', newFriend, function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
+   friends.push(newFriend);
 
     res.json(bestMatch);
 });
