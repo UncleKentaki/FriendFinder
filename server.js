@@ -9,7 +9,8 @@ var app = express();
 var PORT = 3000;
 
 var htmlRoutes = require('./app/routing/htmlRoutes');
-var apiRoutes = require('./app/routing/apiRoutes')(app);
+var apiRoutes = require('./app/routing/apiRoutes');
+var friends = require('./app/data/friends');
 
 app.use('/', htmlRoutes);
 app.use('/api', apiRoutes);
@@ -23,6 +24,45 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({
   type: "application/vnd.api+json"
 }));
+
+// Create new friend - takes in JSON input
+app.post("/friends", function (req, res) {
+    console.log(req.body);
+    var newFriend = JSON.parse(req.body);
+    var newFriendScores = newFriend.scores;
+    var scoreDiff = 0;
+
+
+    var bestMatch = {
+        name: "",
+        image: "",
+        matchDiff: ""
+    }
+
+    //loop trhough friends array
+    for (var i = 0; i < friends.length; i++) {
+
+        scoresDiff = 0;
+
+        //for each friend check difference in user score against current index
+        for (var n = 0; n < 10; n++) {
+
+            scoreDiff += Math.abs(parseInt(newFriendScores[n]) - parseInt(friends[i].scores[n]));
+
+            if (scoreDiff <= bestMatch.matchDiff) {
+                bestMatch.name = friends[i].name;
+                bestMatch.photo = friends[i].photo;
+                bestMatch.matchDiff = scoreDiff;
+            }
+
+        }
+
+    }
+
+    friends.push(newFriend);
+
+    res.json(bestMatch);
+});
 
 
 
